@@ -1,8 +1,8 @@
-import { helloWorld } from "../services/helloWorld";
+import { qualifyListings } from "../services/qualifyListings";
 
 function main() {
   try {
-    helloWorld();
+    qualifyListings();
   } catch (error) {
     console.error(error);
   }
