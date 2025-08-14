@@ -39,8 +39,8 @@ export class ZillowClient {
     endpoint: string,
     params: Record<string, string> = {},
   ): Promise<T> {
-    // TODO: Proper rate limiting
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Basic rate limiter, 2 requests per second
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     const url = new URL(endpoint, this.baseUrl);
     Object.entries(params).forEach(([key, value]) => {
