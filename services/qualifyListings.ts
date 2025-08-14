@@ -5,7 +5,7 @@ const hudsonValleyOneDaySearchUrl =
 
 export const qualifyListings = async () => {
   console.log("Fetching listings from Zillow...");
-  const { results: listingsIDs } = await zillowApi.getListingsBySearchUrl(
+  const { results: listingsIDs } = await zillowApi.getAllListingsBySearchUrl(
     hudsonValleyOneDaySearchUrl,
   );
 

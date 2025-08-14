@@ -85,14 +85,22 @@ export class ZillowClient {
     }
   }
 
-  async getListingsBySearchUrl(
+  async getPageOfListingsBySearchUrl(
     searchUrl: string,
+    page: number = 1,
   ): Promise<ListingsResponseType> {
     if (!searchUrl) {
       throw new Error("Search URL is required");
     }
 
-    const data = await this.makeRequest("/search_url", { url: searchUrl });
+    if (page < 1) {
+      throw new Error("Page must be 1 or greater");
+    }
+
+    const data = await this.makeRequest("/search_url", {
+      url: searchUrl,
+      page: page.toString(),
+    });
     return ListingsResponseSchema.parse(data);
   }
 
@@ -104,6 +112,47 @@ export class ZillowClient {
       zpid: zpid.toString(),
     });
     return PropertyDetailsResponseSchema.parse(data);
+  }
+
+  async getAllListingsBySearchUrl(
+    searchUrl: string,
+  ): Promise<ListingsResponseType> {
+    if (!searchUrl) {
+      throw new Error("Search URL is required");
+    }
+
+    // Get the first page to determine total pages
+    const firstPage = await this.getPageOfListingsBySearchUrl(searchUrl, 1);
+
+    const totalPages = firstPage.totalPages;
+
+    // If only one page, return the first page result
+    if (totalPages <= 1) {
+      return firstPage;
+    }
+
+    // Fetch all remaining pages sequentially to avoid rate limits
+    const remainingPages: ListingsResponseType[] = [];
+    for (let page = 2; page <= totalPages; page++) {
+      const pageResult = await this.getPageOfListingsBySearchUrl(
+        searchUrl,
+        page,
+      );
+      remainingPages.push(pageResult);
+    }
+
+    // Combine all results
+    const allResults = [
+      ...firstPage.results,
+      ...remainingPages.flatMap((page) => page.results),
+    ];
+
+    return {
+      results: allResults,
+      resultsPerPage: firstPage.resultsPerPage,
+      totalPages: firstPage.totalPages,
+      totalResultCount: firstPage.totalResultCount,
+    };
   }
 }
 
