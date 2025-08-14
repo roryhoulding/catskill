@@ -9,4 +9,8 @@ export const helloWorld = async () => {
     hudsonValleyOneDaySearchUrl,
   );
   console.log(data);
+
+  console.log("Fetching property details...");
+  const propertyDetails = await zillowApi.getPropertyDetails("84111705");
+  console.log(propertyDetails);
 };

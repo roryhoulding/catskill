@@ -7,7 +7,6 @@ const ZILLOW_API_BASE_URL = "https://zillow56.p.rapidapi.com";
 const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 const RAPIDAPI_HOST = "zillow56.p.rapidapi.com";
 
-// Custom error class
 export class ZillowApiError extends Error {
   constructor(
     message: string,
@@ -34,6 +33,9 @@ export class ZillowClient {
     endpoint: string,
     params: Record<string, string> = {},
   ): Promise<T> {
+    // TODO: Proper rate limiting
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     const url = new URL(endpoint, this.baseUrl);
     Object.entries(params).forEach(([key, value]) => {
       url.searchParams.append(key, value);
@@ -85,25 +87,14 @@ export class ZillowClient {
     return this.makeRequest("/search_url", { url: searchUrl });
   }
 
-  //   /**
-  //    * Fetch detailed information for a specific property
-  //    * @param zpid - The Zillow Property ID
-  //    * @returns Promise<ZillowPropertyDetails>
-  //    */
-  //   async getPropertyDetails(zpid: string): Promise<ZillowPropertyDetails> {
-  //     if (!zpid) {
-  //       throw new Error("ZPID is required");
-  //     }
-
-  //     return this.makeRequest(
-  //       "/propertyV2",
-  //       { zpid },
-  //       ZillowPropertyDetailsSchema,
-  //     );
-  //   }
+  async getPropertyDetails(zpid: string): Promise<unknown> {
+    if (!zpid) {
+      throw new Error("ZPID is required");
+    }
+    return this.makeRequest("/propertyV2", { zpid });
+  }
 }
 
-// Export a default instance
 export const zillowApi = new ZillowClient();
 
 // // Validation schemas for API responses
