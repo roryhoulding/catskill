@@ -45,7 +45,7 @@ export const ListingsResponseSchema = z.object({
 // ---- Property Details ---- //
 
 export const PropertyDetailsResponseSchema = z.object({
-  address: propertyAddressSchema,
+  address: propertyAddressSchema.nullish(),
   bathrooms: z.number().nullish(),
   bedrooms: z.number().nullish(),
   currency: z.string().nullish(),
@@ -54,19 +54,19 @@ export const PropertyDetailsResponseSchema = z.object({
   description: z.string().nullish(),
   homeStatus: z.string().nullish(),
   homeType: z.string().nullish(),
-  listing_agent: listingAgentSchema,
+  listing_agent: listingAgentSchema.nullish(),
   livingAreaUnits: z.string().nullish(),
   livingAreaUnitsShort: z.string().nullish(),
   livingAreaValue: z.number().nullish(),
   lotAreaUnits: z.string().nullish(),
   lotAreaValue: z.number().nullish(),
   mlsid: z.string().nullish(),
-  nearbyCities: nearbyCitiesSchema,
+  nearbyCities: nearbyCitiesSchema.nullish(),
   photoCount: z.number().nullish(),
   price: z.number().nullish(),
   propertyTypeDimension: z.string().nullish(), // E.g. "Single Family"
   architecturalStyle: z.string().nullish(), // E.g. "Farmhouse"
-  responsivePhotos: responsivePhotosSchema,
+  responsivePhotos: responsivePhotosSchema.nullish(),
   timeOnZillow: z.string().nullish(),
   yearBuilt: z.number().nullish(),
   zpid: zpid,
