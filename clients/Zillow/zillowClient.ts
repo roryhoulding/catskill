@@ -4,7 +4,7 @@ import {
   ListingsResponseSchema,
   ListingsResponseType,
   PropertyDetailsResponseSchema,
-  PropertyDetailsResponseType,
+  PropertyDetails,
 } from "./zillowSchema";
 
 dotenv.config();
@@ -104,7 +104,7 @@ export class ZillowClient {
     return ListingsResponseSchema.parse(data);
   }
 
-  async getPropertyDetails(zpid: number): Promise<PropertyDetailsResponseType> {
+  async getPropertyDetails(zpid: number): Promise<PropertyDetails> {
     if (!zpid) {
       throw new Error("ZPID is required");
     }

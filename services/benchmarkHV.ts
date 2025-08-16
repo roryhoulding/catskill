@@ -7,15 +7,17 @@ const propertiesToTest = [
   { id: 55941162, expectedResult: false }, // fail
   { id: 449578462, expectedResult: false }, // fail
   { id: 84110899, expectedResult: false }, // pass
+  { id: 451043612, expectedResult: false }, // pass
   { id: 2086622587, expectedResult: true }, // pass
   { id: 56816839, expectedResult: true }, // pass
   { id: 84111705, expectedResult: true }, // pass
   { id: 30139195, expectedResult: true }, // pass
   { id: 455510903, expectedResult: true }, // pass
   { id: 30007714, expectedResult: true }, // pass
+  { id: 30000820, expectedResult: true }, // pass
 ];
 
-async function benchmarkHV() {
+async function benchmarkHV(): Promise<void> {
   let passCount = 0;
   let totalProcessed = 0;
 

@@ -1,8 +1,8 @@
 import { qualifyListings } from "../services/qualifyListings";
 
-function main() {
+async function main(): Promise<void> {
   try {
-    qualifyListings();
+    await qualifyListings();
   } catch (error) {
     console.error(error);
   }

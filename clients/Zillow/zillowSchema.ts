@@ -75,6 +75,4 @@ export const PropertyDetailsResponseSchema = z.object({
 // ---- Exports ---- //
 
 export type ListingsResponseType = z.infer<typeof ListingsResponseSchema>;
-export type PropertyDetailsResponseType = z.infer<
-  typeof PropertyDetailsResponseSchema
->;
+export type PropertyDetails = z.infer<typeof PropertyDetailsResponseSchema>;

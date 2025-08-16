@@ -9,6 +9,9 @@ export default defineConfig([
     plugins: { js },
     extends: ["js/recommended"],
     languageOptions: { globals: globals.browser },
+    rules: {
+      "@typescript-eslint/explicit-function-return-type": "error",
+    },
   },
-  tseslint.configs.recommended,
+  ...tseslint.configs.recommended,
 ]);

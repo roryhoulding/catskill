@@ -1,17 +1,19 @@
-import { z } from "zod";
+import * as z from "zod";
 import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
 import dotenv from "dotenv";
-import { PropertyDetailsResponseType } from "../clients/Zillow/zillowSchema";
+import { PropertyDetails } from "../clients/Zillow/zillowSchema";
 
 // Load environment variables
 dotenv.config();
 
-const QualifyingResult = z.object({
+const QualifyingResultSchema = z.object({
   isQualified: z.boolean(),
   score: z.number(),
   explanation: z.string(),
 });
+
+type QualifyingResult = z.infer<typeof QualifyingResultSchema>;
 
 const prompt = `You are an expert real estate curator trained to recognize homes that match the design and aesthetic values of Anatole House (formerly Catskills Mountain Houses), a platform featuring charming, design-forward homes in upstate New York.
 
@@ -44,11 +46,13 @@ When analyzing a home image, determine if it meets most of the following criteri
 - Balanced framing, depth of field, and visual clarity
 - Consistent style and color temperature
 - Avoids over-saturated or low-quality, poorly lit images
+
+In your response please determine whether isQualified is true of false, provide a score between 0 and 100, and provide a short explanation of your reasoning.
 `;
 
 export const qualifyListing = async (
-  propertyDetails: PropertyDetailsResponseType,
-) => {
+  propertyDetails: PropertyDetails,
+): Promise<QualifyingResult | null> => {
   console.log(`Qualifying listing zpid: ${propertyDetails.zpid}`);
 
   const openai = new OpenAI({
@@ -80,7 +84,7 @@ export const qualifyListing = async (
       },
     ],
     text: {
-      format: zodTextFormat(QualifyingResult, "qualifying_result"),
+      format: zodTextFormat(QualifyingResultSchema, "qualifying_result"),
     },
   });
 
