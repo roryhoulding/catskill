@@ -66,7 +66,7 @@ export const qualifyListing = async (
     : [];
 
   const response = await openai.responses.parse({
-    model: "gpt-4.1-mini",
+    model: "gpt-4.1-nano",
     input: [
       {
         role: "user",
@@ -84,8 +84,7 @@ export const qualifyListing = async (
     },
   });
 
-  console.log(response.output_text);
-  return response.output_text;
+  return response.output_parsed;
 };
 
 // TODO: Remake this as class that you instantiate for property with a qualify property method? A model maybe?
