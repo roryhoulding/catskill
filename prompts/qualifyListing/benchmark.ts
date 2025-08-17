@@ -1,21 +1,6 @@
-import { qualifyListing } from "./qualifyListing";
-import { zillowApi } from "../clients/Zillow/zillowClient";
-
-const propertiesToTest = [
-  { id: 102046383, expectedResult: false }, // fail
-  { id: 31831342, expectedResult: false }, // fail
-  { id: 55941162, expectedResult: false }, // fail
-  { id: 449578462, expectedResult: false }, // fail
-  { id: 84110899, expectedResult: false }, // pass
-  { id: 451043612, expectedResult: false }, // pass
-  { id: 2086622587, expectedResult: true }, // pass
-  { id: 56816839, expectedResult: true }, // pass
-  { id: 84111705, expectedResult: true }, // pass
-  { id: 30139195, expectedResult: true }, // pass
-  { id: 455510903, expectedResult: true }, // pass
-  { id: 30007714, expectedResult: true }, // pass
-  { id: 30000820, expectedResult: true }, // pass
-];
+import { qualifyListing } from "../../services/qualifyListing";
+import { zillowApi } from "../../clients/Zillow/zillowClient";
+import { propertiesToTest } from "./benchmarkPropertySet";
 
 async function benchmarkHV(): Promise<void> {
   let passCount = 0;

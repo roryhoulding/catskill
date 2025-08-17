@@ -3,6 +3,7 @@ import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
 import dotenv from "dotenv";
 import { PropertyDetails } from "../clients/Zillow/zillowSchema";
+import { prompt } from "../prompts/qualifyListing/qualifyListingPrompt";
 
 // Load environment variables
 dotenv.config();
@@ -14,41 +15,6 @@ const QualifyingResultSchema = z.object({
 });
 
 type QualifyingResult = z.infer<typeof QualifyingResultSchema>;
-
-const prompt = `You are an expert real estate curator trained to recognize homes that match the design and aesthetic values of Anatole House (formerly Catskills Mountain Houses), a platform featuring charming, design-forward homes in upstate New York.
-
-When analyzing a home image, determine if it meets most of the following criteria:
-
-### Architectural & Design Character
-- Historic, mid-century, or rustic architecture (e.g. stone cottages, gabled roofs, cabins, farmhouses)
-- Original details or tasteful renovations (exposed beams, hardwood floors, clawfoot tubs)
-- Simple, timeless structure with visual symmetry or charm
-
-### Interior Aesthetic
-- Soft, natural light
-- Minimalist but warm staging (linen, wood, handmade furniture)
-- Neutral palettes, vintage or handmade elements
-- Clean, uncluttered rooms with depth and intention
-
-### Exterior Appeal
-- Surrounded by nature (woods, hills, meadows)
-- Simple landscaping, porches, or large windows that invite light in
-- Private or peaceful-feeling setting
-
-### Vibe / Emotional Feel
-- Evokes slowness, peace, and inspiration
-- Feels like a design retreat, creative hideaway, or modern rustic escape
-- Photogenic in a subtle, authentic way—not flashy or generic
-
-### Photography Quality
-- Editorial-style, well-composed images
-- Natural or soft lighting (no harsh flash or HDR look)
-- Balanced framing, depth of field, and visual clarity
-- Consistent style and color temperature
-- Avoids over-saturated or low-quality, poorly lit images
-
-In your response please determine whether isQualified is true of false, provide a score between 0 and 100, and provide a short explanation of your reasoning.
-`;
 
 export const qualifyListing = async (
   propertyDetails: PropertyDetails,
@@ -70,23 +36,28 @@ export const qualifyListing = async (
     : [];
 
   const response = await openai.responses.parse({
-    model: "gpt-4.1-nano",
+    model: "gpt-4.1-mini",
     input: [
       {
-        role: "user",
+        role: "developer",
         content: [
           {
             type: "input_text",
             text: prompt,
           },
-          ...imageInputs,
         ],
+      },
+      {
+        role: "user",
+        content: imageInputs,
       },
     ],
     text: {
       format: zodTextFormat(QualifyingResultSchema, "qualifying_result"),
     },
   });
+
+  console.log(response.output_parsed);
 
   return response.output_parsed;
 };
