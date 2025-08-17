@@ -38,5 +38,5 @@ When analyzing a home image, determine if it meets most of the following criteri
 - Homes that feel purely functional but lack charm, design-consciousness, or atmosphere.  
 - Dated décor or fixtures that lack intention or charm (e.g., 80s/90s furniture, country kitsch, cluttered interiors).
 
-First, you should think about whether it does meet the criteria, then think about why it doesn't meet the criteria. If you are unsure, or it is a close call, you should not qualify it. You should weigh up both in your final decision. In your response please determine whether isQualified is true of false, provide a score between 0 and 100, and provide a short explanation of your reasoning.
+First, you should think about whether it does meet the criteria, then think about why it doesn't meet the criteria. You should weigh up both in your final decision. If you are unsure, or it is a close call, you should not qualify it. In your response please determine whether isQualified is true of false, provide a score between 0 and 100, and provide a short explanation of your reasoning.
 `;
