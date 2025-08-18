@@ -19,10 +19,15 @@ export const qualifyListings = async (
   const qualifiedListings: PropertyDetails[] = [];
 
   for (const listing of listingsIDs) {
-    const propertyDetails = await zillowApi.getPropertyDetails(listing.zpid);
-    const result = await qualifyListing(propertyDetails);
-    if (result?.isQualified) {
-      qualifiedListings.push(propertyDetails);
+    try {
+      const propertyDetails = await zillowApi.getPropertyDetails(listing.zpid);
+      const result = await qualifyListing(propertyDetails);
+      if (result?.isQualified) {
+        qualifiedListings.push(propertyDetails);
+      }
+    } catch (error) {
+      console.error(`Error qualifying listing ${listing.zpid}:`, error);
+      continue;
     }
   }
 

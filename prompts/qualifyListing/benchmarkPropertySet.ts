@@ -16,6 +16,8 @@ export const propertiesToTest = [
   { id: 32833041, expectedResult: false }, // fail
   { id: 56767810, expectedResult: false }, // fail
   { id: 29998620, expectedResult: false }, // fail
+  { id: 32863780, expectedResult: false }, // fail
+  { id: 450517748, expectedResult: false }, // fail because it's a complex
   { id: 2086622587, expectedResult: true }, // pass
   { id: 56816839, expectedResult: true }, // pass
   { id: 84111705, expectedResult: true }, // pass
