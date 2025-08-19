@@ -1,28 +1,23 @@
 import { qualifyListings } from "../services/qualifyListings";
-import { sendListingsEmail } from "../services/emailService";
-import { ConfigService } from "../services/configService";
+import { sendListingsEmail } from "../services/sendListingsEmail";
+import { Config } from "../services/config";
 
 async function main(): Promise<void> {
   try {
-    // Validate configuration
-    ConfigService.validateRequiredConfig();
-
-    // Get qualified listings
     const qualifiedListings = await qualifyListings(
-      ConfigService.hudsonValleySearchUrl,
+      Config.hudsonValleySearchUrl,
     );
 
-    // Send email notification
     await sendListingsEmail(
       qualifiedListings,
-      ConfigService.emailConfig.recipients,
-      ConfigService.emailConfig.apiKey,
+      Config.emailConfig.recipients,
+      Config.emailConfig.apiKey,
     );
 
     console.log(`Processed ${qualifiedListings.length} qualified listings`);
   } catch (error) {
     console.error("Job failed:", error);
-    throw error; // Re-throw to ensure job fails properly
+    throw error;
   }
 }
 

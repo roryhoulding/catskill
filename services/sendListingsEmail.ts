@@ -14,10 +14,7 @@ export async function sendListingsEmail(
     from: "listings@castkills.roryhoulding.fyi",
     to: recipients,
     subject,
-    html: `
-      <h3>New listings</h3>
-      ${listingsHtml}
-    `,
+    html: listingsHtml,
   });
 
   if (email.error) {
@@ -32,7 +29,7 @@ function formatListingsHtml(listings: PropertyDetails[]): string {
     return "<p>No qualified listings found today.</p>";
   }
 
-  let html = "<h2>Qualified Listings:</h2><ul>";
+  let html = "<h3>New listings</h3><ul>";
 
   for (const listing of listings) {
     const zillowUrl = `https://www.zillow.com/homedetails/${listing.zpid}_zpid/`;
