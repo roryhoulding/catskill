@@ -1,26 +1,21 @@
 import { zillowApi } from "../../clients/Zillow/zillowClient";
 import { propertiesToTest } from "./evalData";
 import { PropertyDetails } from "../../clients/Zillow/zillowSchema";
-import * as z from "zod";
 import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
 import dotenv from "dotenv";
 import { getImageInputs } from "../../services/qualifyListing";
-import { promptInput } from "../qualifyListing/v2";
+import { ResponseInput } from "openai/resources/responses/responses.js";
+import {
+  QualifyingResultSchema,
+  QualifyingResult,
+} from "../../services/qualifyListing";
 
 // Load environment variables
 dotenv.config();
 
-export const QualifyingResultSchema = z.object({
-  isQualified: z.boolean(),
-  score: z.number(),
-  explanation: z.string(),
-});
-
-type QualifyingResult = z.infer<typeof QualifyingResultSchema>;
-
 export interface EvaluationConfig {
-  prompt: string;
+  promptInput: ResponseInput;
   model: string;
 }
 
@@ -47,23 +42,14 @@ export class Evaluator {
     this.config = config;
   }
 
-  /**
-   * Update the evaluation configuration
-   */
   updateConfig(config: Partial<EvaluationConfig>): void {
     this.config = { ...this.config, ...config };
   }
 
-  /**
-   * Get the current configuration
-   */
   getConfig(): EvaluationConfig {
     return { ...this.config };
   }
 
-  /**
-   * Qualify a single property using the current prompt and model
-   */
   private async qualifyProperty(
     propertyDetails: PropertyDetails,
   ): Promise<QualifyingResult | null> {
@@ -78,7 +64,7 @@ export class Evaluator {
     const response = await openai.responses.parse({
       model: this.config.model,
       input: [
-        ...promptInput,
+        ...this.config.promptInput,
         {
           role: "user",
           content: [
@@ -100,9 +86,6 @@ export class Evaluator {
     return response.output_parsed;
   }
 
-  /**
-   * Evaluate a single property
-   */
   private async evaluateProperty(property: {
     id: number;
     expectedResult: boolean;
@@ -119,9 +102,6 @@ export class Evaluator {
     };
   }
 
-  /**
-   * Run the full evaluation on all test properties
-   */
   async evaluate(): Promise<EvaluationSummary> {
     const results: EvaluationResult[] = [];
     let passCount = 0;
@@ -176,21 +156,5 @@ export class Evaluator {
       successRate,
       results,
     };
-  }
-
-  /**
-   * Run evaluation with a temporary configuration
-   */
-  async evaluateWithConfig(
-    tempConfig: EvaluationConfig,
-  ): Promise<EvaluationSummary> {
-    const originalConfig = this.getConfig();
-    this.updateConfig(tempConfig);
-
-    try {
-      return await this.evaluate();
-    } finally {
-      this.updateConfig(originalConfig);
-    }
   }
 }

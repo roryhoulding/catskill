@@ -1,10 +1,10 @@
 import { Evaluator } from "./evaluator";
-import { prompt } from "../qualifyListing/v1";
+import { promptInput } from "../qualifyListing/v3";
 
 async function main(): Promise<void> {
   // Create a dynamic evaluator with the original prompt and model
   const evaluator = new Evaluator({
-    prompt: prompt,
+    promptInput: promptInput,
     model: "gpt-4.1-mini",
   });
 

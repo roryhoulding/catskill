@@ -9,13 +9,13 @@ import { ResponseInputImage } from "openai/resources/responses/responses.js";
 // Load environment variables
 dotenv.config();
 
-const QualifyingResultSchema = z.object({
+export const QualifyingResultSchema = z.object({
   isQualified: z.boolean(),
   score: z.number(),
   explanation: z.string(),
 });
 
-type QualifyingResult = z.infer<typeof QualifyingResultSchema>;
+export type QualifyingResult = z.infer<typeof QualifyingResultSchema>;
 
 export const qualifyListing = async (
   propertyDetails: PropertyDetails,
