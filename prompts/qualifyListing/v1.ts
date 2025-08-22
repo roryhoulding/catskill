@@ -1,3 +1,5 @@
+import { EasyInputMessage } from "openai/resources/responses/responses.js";
+
 export const prompt = `You are an expert real estate curator trained to recognize homes that match the design and aesthetic values of Anatole House (formerly Catskills Mountain Houses), a platform featuring charming, design-forward homes in upstate New York.
 
 When analyzing a home image, determine if it meets most of the following criteria:
@@ -43,14 +45,12 @@ If the property is unfurnished it should not be qualified.
 First, you should think about why it does meet the criteria, then think about why it doesn't meet the criteria. You should weigh up both in your final decision. If you are unsure, or it is a close call, you should not qualify it. In your response please determine whether isQualified is true or false, provide a score between 0 and 100, and provide a short explanation of your reasoning.
 `;
 
-export const promptInput = [
-  {
-    role: "system",
-    content: [
-      {
-        type: "input_text",
-        text: prompt,
-      },
-    ],
-  },
-];
+export const promptInput: EasyInputMessage = {
+  role: "system",
+  content: [
+    {
+      type: "input_text",
+      text: prompt,
+    },
+  ],
+};

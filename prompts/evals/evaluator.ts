@@ -4,7 +4,7 @@ import { PropertyDetails } from "../../clients/Zillow/zillowSchema";
 import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
 import dotenv from "dotenv";
-import { getImageInputs } from "../../services/qualifyListing";
+import { getImageInputsForProperty } from "../../utils/getImageInputsForProperty";
 import { ResponseInput } from "openai/resources/responses/responses.js";
 import {
   QualifyingResultSchema,
@@ -59,7 +59,7 @@ export class Evaluator {
       apiKey: process.env.OPENAI_API_KEY,
     });
 
-    const imageInputs = getImageInputs(propertyDetails);
+    const imageInputs = getImageInputsForProperty(propertyDetails);
 
     const response = await openai.responses.parse({
       model: this.config.model,

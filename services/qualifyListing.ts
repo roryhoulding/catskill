@@ -4,7 +4,7 @@ import { zodTextFormat } from "openai/helpers/zod";
 import dotenv from "dotenv";
 import { PropertyDetails } from "../clients/Zillow/zillowSchema";
 import { promptInput } from "../prompts/qualifyListing/v2";
-import { ResponseInputImage } from "openai/resources/responses/responses.js";
+import { getImageInputsForProperty } from "../utils/getImageInputsForProperty";
 
 // Load environment variables
 dotenv.config();
@@ -26,7 +26,7 @@ export const qualifyListing = async (
     apiKey: process.env.OPENAI_API_KEY,
   });
 
-  const imageInputs = getImageInputs(propertyDetails);
+  const imageInputs = getImageInputsForProperty(propertyDetails, 2);
 
   const response = await openai.responses.parse({
     model: "gpt-4.1-mini",
@@ -46,20 +46,3 @@ export const qualifyListing = async (
 
   return response.output_parsed;
 };
-
-export const getImageInputs = (
-  propertyDetails: PropertyDetails,
-): ResponseInputImage[] => {
-  return propertyDetails.responsivePhotos
-    ? propertyDetails.responsivePhotos
-        .filter((photo) => photo.url)
-        .filter((_, i) => i % 2 === 0) // Get every other photo to save on cost
-        .map((photo) => ({
-          type: "input_image" as const,
-          image_url: photo.url!,
-          detail: "auto" as const,
-        }))
-    : [];
-};
-
-// TODO: Remake this as class that you instantiate for property with a qualify property method? A model maybe?
