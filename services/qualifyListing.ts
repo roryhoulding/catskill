@@ -3,7 +3,7 @@ import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
 import dotenv from "dotenv";
 import { PropertyDetails } from "../clients/Zillow/zillowSchema";
-import { promptInput } from "../prompts/qualifyListing/v2";
+import { promptInput } from "../prompts/qualifyListing/v3";
 import { getImageInputsForProperty } from "../utils/getImageInputsForProperty";
 
 // Load environment variables

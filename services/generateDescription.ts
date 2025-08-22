@@ -80,7 +80,7 @@ function getPropertyDataForDescription(
 }
 
 async function main(): Promise<void> {
-  const propertyDetails = await zillowApi.getPropertyDetails(84111705);
+  const propertyDetails = await zillowApi.getPropertyDetails(2086622587);
   generateDescriptionAndSelectImages(propertyDetails);
 }
 
