@@ -19,7 +19,7 @@ const ContentSchema = z.object({
   ),
 });
 
-type Content = z.infer<typeof ContentSchema>;
+export type Content = z.infer<typeof ContentSchema>;
 
 export const generateDescriptionAndSelectImages = async (
   propertyDetails: PropertyDetails,

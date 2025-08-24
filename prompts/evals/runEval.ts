@@ -1,5 +1,5 @@
 import { Evaluator } from "./evaluator";
-import { promptInput } from "../qualifyListing/v3";
+import { promptInput } from "../qualifyListing/v3-1";
 
 async function main(): Promise<void> {
   // Create a dynamic evaluator with the original prompt and model
