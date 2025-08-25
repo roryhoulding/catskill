@@ -4,7 +4,6 @@ import OpenAI from "openai";
 import dotenv from "dotenv";
 import { z } from "zod";
 import { zodTextFormat } from "openai/helpers/zod.js";
-import { zillowApi } from "../clients/Zillow/zillowClient";
 import { promptInput } from "../prompts/generateDescriptionAndSelectImages/v1";
 
 dotenv.config();
@@ -78,10 +77,3 @@ function getPropertyDataForDescription(
     yearBuilt: propertyDetails.yearBuilt,
   };
 }
-
-async function main(): Promise<void> {
-  const propertyDetails = await zillowApi.getPropertyDetails(2086622587);
-  generateDescriptionAndSelectImages(propertyDetails);
-}
-
-main();
