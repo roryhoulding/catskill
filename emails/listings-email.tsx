@@ -20,13 +20,6 @@ export const ListingsEmail = ({ listingsContent }: ListingsEmailProps) => (
   <Html>
     <Preview>{listingsContent.length.toString()} new upstate houses</Preview>
     <Body style={main}>
-      <Container style={containerHeader}>
-        <Img
-          src="../static/upstate-homes-header.png"
-          alt="Upstate Homes"
-          width="100%"
-        />
-      </Container>
       <Container style={container}>
         <Text style={text}>
           {listingsContent.length} new
