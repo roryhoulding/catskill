@@ -2,7 +2,6 @@ import * as React from "react";
 import {
   Body,
   Container,
-  Head,
   Html,
   Img,
   Section,
@@ -19,15 +18,20 @@ interface ListingsEmailProps {
 
 export const ListingsEmail = ({ listingsContent }: ListingsEmailProps) => (
   <Html>
-    <Head />
     <Preview>{listingsContent.length.toString()} new upstate houses</Preview>
     <Body style={main}>
+      <Container style={containerHeader}>
+        <Img
+          src="../static/upstate-homes-header.png"
+          alt="Upstate Homes"
+          width="100%"
+        />
+      </Container>
       <Container style={container}>
         <Text style={text}>
           {listingsContent.length} new
-          {listingsContent.length > 1 ? " properties" : " property"}
+          {listingsContent.length === 1 ? " property" : " properties"}
         </Text>
-
         {listingsContent.map((listingContent, index) => (
           <div key={index}>
             <Listing listing={listingContent} />
@@ -74,7 +78,7 @@ const Listing = ({ listing }: { listing: ListingContent }) => {
     "No description available.";
 
   // Create Zillow link
-  const zillowLink = `https://www.zillow.com/homedetails/${propertyDetails.zpid}`;
+  const zillowLink = `https://www.zillow.com/homedetails/${propertyDetails.zpid}_zpid/`;
 
   return (
     <Section style={listingSection}>
@@ -156,8 +160,12 @@ export default ListingsEmail;
 const main = {
   backgroundColor: "#F8F7F2",
   fontFamily:
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+    "'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
   lineHeight: "1.6",
+};
+
+const containerHeader = {
+  margin: "0 auto",
 };
 
 const container = {
@@ -168,9 +176,10 @@ const container = {
 };
 
 const text = {
-  color: "#333333",
-  fontSize: "18px",
-  margin: "40px 0",
+  color: "#00200F",
+  opacity: 0.8,
+  fontSize: "14px",
+  margin: "10px 0",
   textAlign: "center" as const,
   fontWeight: "400",
 };
