@@ -1,6 +1,6 @@
 import { PropertyDetails } from "../clients/Zillow/zillowSchema";
 import { getImageInputsForProperty } from "../utils/getImageInputsForProperty";
-import OpenAI from "openai";
+import { openAIClient } from "../clients/openAI/openAIClient";
 import dotenv from "dotenv";
 import { z } from "zod";
 import { zodTextFormat } from "openai/helpers/zod.js";
@@ -23,16 +23,12 @@ export type Content = z.infer<typeof ContentSchema>;
 export const generateDescriptionAndSelectImages = async (
   propertyDetails: PropertyDetails,
 ): Promise<Content | null> => {
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-
   const imageInputs = getImageInputsForProperty(propertyDetails);
   const propertyData = getPropertyDataForDescription(propertyDetails);
 
   console.log(imageInputs);
 
-  const response = await openai.responses.parse({
+  const response = await openAIClient.responses.parse({
     model: "gpt-5-mini",
     input: [
       promptInput,

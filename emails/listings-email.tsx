@@ -157,10 +157,6 @@ const main = {
   lineHeight: "1.6",
 };
 
-const containerHeader = {
-  margin: "0 auto",
-};
-
 const container = {
   paddingLeft: "24px",
   paddingRight: "24px",

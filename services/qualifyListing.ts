@@ -1,5 +1,5 @@
 import * as z from "zod";
-import OpenAI from "openai";
+import { openAIClient } from "../clients/openAI/openAIClient";
 import { zodTextFormat } from "openai/helpers/zod";
 import dotenv from "dotenv";
 import { PropertyDetails } from "../clients/Zillow/zillowSchema";
@@ -22,13 +22,9 @@ export const qualifyListing = async (
 ): Promise<QualifyingResult | null> => {
   console.log(`Qualifying listing zpid: ${propertyDetails.zpid}`);
 
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-
   const imageInputs = getImageInputsForProperty(propertyDetails, 2);
 
-  const response = await openai.responses.parse({
+  const response = await openAIClient.responses.parse({
     model: "gpt-4.1-mini",
     input: [
       ...promptInput,

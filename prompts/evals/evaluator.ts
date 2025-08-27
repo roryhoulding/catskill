@@ -1,7 +1,7 @@
 import { zillowApi } from "../../clients/Zillow/zillowClient";
 import { propertiesToTest } from "./evalData";
 import { PropertyDetails } from "../../clients/Zillow/zillowSchema";
-import OpenAI from "openai";
+import { openAIClient } from "../../clients/openAI/openAIClient";
 import { zodTextFormat } from "openai/helpers/zod";
 import dotenv from "dotenv";
 import { getImageInputsForProperty } from "../../utils/getImageInputsForProperty";
@@ -55,13 +55,9 @@ export class Evaluator {
   ): Promise<QualifyingResult | null> {
     console.log(`Qualifying listing zpid: ${propertyDetails.zpid}`);
 
-    const openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
-
     const imageInputs = getImageInputsForProperty(propertyDetails);
 
-    const response = await openai.responses.parse({
+    const response = await openAIClient.responses.parse({
       model: this.config.model,
       input: [
         ...this.config.promptInput,
