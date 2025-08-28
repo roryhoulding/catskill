@@ -1,5 +1,5 @@
 import { ListingContent } from "../types";
-import { Config } from "./config";
+import { emailConfig } from "./config";
 import { generateDescriptionAndSelectImages } from "./generateDescription";
 import { qualifyListings } from "./qualifyListings";
 import { sendListingsEmail } from "./sendListingsEmail";
@@ -24,8 +24,8 @@ export async function listingsParentProcessor(
 
     await sendListingsEmail(
       listingsContent,
-      Config.emailConfig.recipients,
-      Config.emailConfig.apiKey,
+      emailConfig.recipients,
+      emailConfig.apiKey,
     );
 
     console.log(`Processed ${qualifiedListings.length} qualified listings`);
