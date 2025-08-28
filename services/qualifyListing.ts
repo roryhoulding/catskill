@@ -3,8 +3,8 @@ import { openAIClient } from "../clients/openAI/openAIClient";
 import { zodTextFormat } from "openai/helpers/zod";
 import dotenv from "dotenv";
 import { PropertyDetails } from "../clients/Zillow/zillowSchema";
-import { promptInput } from "../prompts/qualifyListing/v3";
 import { getImageInputsForProperty } from "../utils/getImageInputsForProperty";
+import { ResponseInput } from "openai/resources/responses/responses.js";
 
 // Load environment variables
 dotenv.config();
@@ -19,6 +19,7 @@ export type QualifyingResult = z.infer<typeof QualifyingResultSchema>;
 
 export const qualifyListing = async (
   propertyDetails: PropertyDetails,
+  promptInput: ResponseInput,
 ): Promise<QualifyingResult | null> => {
   console.log(`Qualifying listing zpid: ${propertyDetails.zpid}`);
 

@@ -2,10 +2,12 @@ import { zillowApi } from "../clients/Zillow/zillowClient";
 import dotenv from "dotenv";
 import { qualifyListing } from "./qualifyListing";
 import { PropertyDetails } from "../clients/Zillow/zillowSchema";
+import { ResponseInput } from "openai/resources/responses/responses.js";
 dotenv.config();
 
 export const qualifyListings = async (
   searchURL: string,
+  promptInput: ResponseInput,
 ): Promise<PropertyDetails[]> => {
   const { results: listingsIDs } =
     await zillowApi.getAllListingsBySearchUrl(searchURL);
@@ -21,7 +23,7 @@ export const qualifyListings = async (
   for (const listing of listingsIDs) {
     try {
       const propertyDetails = await zillowApi.getPropertyDetails(listing.zpid);
-      const result = await qualifyListing(propertyDetails);
+      const result = await qualifyListing(propertyDetails, promptInput);
       if (result?.isQualified) {
         qualifiedListings.push(propertyDetails);
       }
