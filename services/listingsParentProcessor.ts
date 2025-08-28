@@ -1,5 +1,5 @@
 import { ListingContent } from "../types";
-import { emailConfig } from "./config";
+import { emailConfig } from "../utils/config";
 import { generateDescriptionAndSelectImages } from "./generateDescription";
 import { qualifyListings } from "./qualifyListings";
 import { sendListingsEmail } from "./sendListingsEmail";
