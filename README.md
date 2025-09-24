@@ -2,7 +2,7 @@
 
 An experiment in AI image analysis and content curation. Uses Open AI vision for image qualifying, few shot prompting, [sequential processing pattern](https://ai-sdk.dev/docs/agents/workflows#sequential-processing-chains), structured output with Zod, and content generation.
 
-_Created with the helped of AI._
+_Readme created with the help of AI._
 
 ## In Brief
 
